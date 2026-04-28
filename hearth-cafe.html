@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>The Hearth Café</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --cream: #FAF6EF;
+    --warm-white: #FDF9F4;
+    --brown: #5C3D2E;
+    --dark-brown: #3B2314;
+    --caramel: #C17B3F;
+    --caramel-light: #E8A96A;
+    --tan: #D4B896;
+    --muted: #8C7B6E;
+    --text: #2C1A0E;
+    --border: #E0CEBB;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Lato', sans-serif;
+    background: var(--cream);
+    color: var(--text);
+    overflow-x: hidden;
+  }
+
+  /* ─── NAV ─── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    background: rgba(250,246,239,0.95);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--border);
+    z-index: 100;
+    padding: 0 5%;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 68px;
+  }
+  .logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    color: var(--brown);
+    letter-spacing: 0.02em;
+    text-decoration: none;
+  }
+  .logo span { color: var(--caramel); font-style: italic; }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a {
+    font-size: 0.88rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--caramel); }
+  .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
+  .hamburger span { display: block; width: 24px; height: 2px; background: var(--brown); }
+
+  /* ─── HERO ─── */
+  #home {
+    min-height: 100vh;
+    display: flex; align-items: center; justify-content: center;
+    text-align: center;
+    padding: 120px 5% 80px;
+    position: relative;
+    background:
+      radial-gradient(ellipse at 20% 50%, rgba(193,123,63,0.12) 0%, transparent 55%),
+      radial-gradient(ellipse at 80% 20%, rgba(193,123,63,0.09) 0%, transparent 50%),
+      var(--cream);
+  }
+  #home::before {
+    content: '';
+    position: absolute; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23C17B3F' fill-opacity='0.04'%3E%3Ccircle cx='7' cy='7' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    pointer-events: none;
+  }
+  .hero-eyebrow {
+    font-size: 0.78rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--caramel);
+    margin-bottom: 1.4rem;
+    display: block;
+  }
+  .hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3rem, 7vw, 5.5rem);
+    line-height: 1.1;
+    color: var(--dark-brown);
+    margin-bottom: 1.5rem;
+  }
+  .hero-title em { color: var(--caramel); font-style: italic; }
+  .hero-sub {
+    font-size: 1.1rem;
+    color: var(--muted);
+    font-weight: 300;
+    max-width: 500px;
+    margin: 0 auto 2.5rem;
+    line-height: 1.8;
+  }
+  .btn-primary {
+    display: inline-block;
+    background: var(--brown);
+    color: var(--cream);
+    padding: 14px 36px;
+    border-radius: 2px;
+    text-decoration: none;
+    font-size: 0.85rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    transition: background 0.2s, transform 0.2s;
+  }
+  .btn-primary:hover { background: var(--dark-brown); transform: translateY(-1px); }
+  .btn-outline {
+    display: inline-block;
+    border: 1.5px solid var(--brown);
+    color: var(--brown);
+    padding: 13px 34px;
+    border-radius: 2px;
+    text-decoration: none;
+    font-size: 0.85rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-left: 1rem;
+    transition: all 0.2s;
+  }
+  .btn-outline:hover { background: var(--brown); color: var(--cream); }
+  .hero-badges {
+    display: flex; gap: 2.5rem; justify-content: center; margin-top: 4rem;
+    flex-wrap: wrap;
+  }
+  .badge {
+    display: flex; flex-direction: column; align-items: center; gap: 4px;
+    font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted);
+  }
+  .badge-icon { font-size: 1.5rem; }
+
+  /* ─── SECTION COMMON ─── */
+  section { padding: 100px 5%; }
+  .section-label {
+    font-size: 0.72rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--caramel);
+    margin-bottom: 0.8rem;
+    display: block;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    color: var(--dark-brown);
+    line-height: 1.2;
+    margin-bottom: 1rem;
+  }
+  .section-sub {
+    color: var(--muted);
+    font-weight: 300;
+    font-size: 1rem;
+    line-height: 1.8;
+    max-width: 500px;
+  }
+  .divider {
+    width: 48px; height: 2px;
+    background: var(--caramel);
+    margin: 1.5rem 0;
+  }
+
+  /* ─── MENU ─── */
+  #menu { background: var(--warm-white); }
+  .menu-header { text-align: center; margin-bottom: 3.5rem; }
+  .menu-header .section-sub { margin: 0 auto; }
+  .menu-header .divider { margin: 1.5rem auto; }
+  .menu-tabs {
+    display: flex; gap: 0; justify-content: center; margin-bottom: 3rem;
+    border: 1px solid var(--border); border-radius: 3px; overflow: hidden;
+    width: fit-content; margin-left: auto; margin-right: auto;
+  }
+  .tab-btn {
+    padding: 10px 28px;
+    font-size: 0.82rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: var(--muted);
+    transition: all 0.2s;
+    font-family: 'Lato', sans-serif;
+    border-right: 1px solid var(--border);
+  }
+  .tab-btn:last-child { border-right: none; }
+  .tab-btn.active { background: var(--brown); color: var(--cream); }
+  .tab-btn:hover:not(.active) { background: var(--cream); color: var(--brown); }
+  .menu-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+  }
+  .menu-card {
+    background: var(--cream);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1.6rem;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .menu-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(92,61,46,0.1); }
+  .menu-card-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem; }
+  .menu-card h3 { font-family: 'Playfair Display', serif; font-size: 1.1rem; color: var(--dark-brown); }
+  .menu-price { font-size: 1rem; color: var(--caramel); font-weight: 700; }
+  .menu-card p { font-size: 0.88rem; color: var(--muted); line-height: 1.7; }
+  .menu-tag {
+    display: inline-block; font-size: 0.68rem; letter-spacing: 0.1em;
+    text-transform: uppercase; background: #F0E6D6; color: var(--caramel);
+    padding: 2px 8px; border-radius: 2px; margin-top: 0.8rem;
+  }
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  /* ─── ABOUT ─── */
+  #about {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    align-items: center;
+  }
+  .about-visual {
+    position: relative;
+  }
+  .about-img-main {
+    width: 100%; aspect-ratio: 4/5;
+    background: linear-gradient(145deg, #D4B896 0%, #C17B3F 50%, #8B5A2B 100%);
+    border-radius: 4px;
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden;
+  }
+  .about-img-main svg { opacity: 0.6; }
+  .about-img-accent {
+    position: absolute;
+    width: 55%; aspect-ratio: 1;
+    background: linear-gradient(145deg, #FAF0E6 0%, #E8C9A0 100%);
+    border: 4px solid var(--warm-white);
+    border-radius: 4px;
+    bottom: -2rem; right: -2rem;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .about-stat { text-align: center; }
+  .about-stat .num { font-family: 'Playfair Display', serif; font-size: 2.4rem; color: var(--brown); }
+  .about-stat .lbl { font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+  .about-text .section-sub { max-width: 100%; }
+  .about-text p + p { margin-top: 1rem; }
+  .about-features { margin-top: 2rem; display: flex; flex-direction: column; gap: 1rem; }
+  .about-feat { display: flex; gap: 1rem; align-items: flex-start; }
+  .about-feat-icon {
+    width: 40px; height: 40px; flex-shrink: 0;
+    background: #F0E6D6; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.1rem;
+  }
+  .about-feat-text h4 { font-size: 0.9rem; font-weight: 700; color: var(--dark-brown); margin-bottom: 2px; }
+  .about-feat-text p { font-size: 0.85rem; color: var(--muted); line-height: 1.6; }
+
+  /* ─── CONTACT ─── */
+  #contact { background: var(--warm-white); }
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    margin-top: 3rem;
+  }
+  .contact-info { display: flex; flex-direction: column; gap: 2rem; }
+  .contact-item { display: flex; gap: 1.2rem; align-items: flex-start; }
+  .contact-item-icon {
+    width: 44px; height: 44px; flex-shrink: 0;
+    background: var(--brown); color: var(--cream); border-radius: 50%;
+    display: flex; align-items: center; justify-content: center; font-size: 1.1rem;
+  }
+  .contact-item h4 { font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; }
+  .contact-item p { color: var(--dark-brown); font-size: 0.95rem; line-height: 1.6; }
+  .contact-form { display: flex; flex-direction: column; gap: 1rem; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .form-group { display: flex; flex-direction: column; gap: 6px; }
+  .form-group label { font-size: 0.78rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+  .form-group input,
+  .form-group textarea,
+  .form-group select {
+    padding: 12px 14px;
+    background: var(--cream);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    font-family: 'Lato', sans-serif;
+    font-size: 0.9rem;
+    color: var(--text);
+    transition: border-color 0.2s;
+    outline: none;
+  }
+  .form-group input:focus,
+  .form-group textarea:focus,
+  .form-group select:focus { border-color: var(--caramel); }
+  .form-group textarea { resize: vertical; min-height: 110px; }
+  .submit-btn {
+    background: var(--brown);
+    color: var(--cream);
+    border: none;
+    padding: 14px 32px;
+    font-family: 'Lato', sans-serif;
+    font-size: 0.85rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    cursor: pointer;
+    border-radius: 2px;
+    transition: background 0.2s;
+    align-self: flex-start;
+  }
+  .submit-btn:hover { background: var(--dark-brown); }
+
+  /* ─── FOOTER ─── */
+  footer {
+    background: var(--dark-brown);
+    color: var(--tan);
+    text-align: center;
+    padding: 3rem 5%;
+  }
+  footer .logo { color: var(--tan); display: block; margin-bottom: 1rem; }
+  footer .logo span { color: var(--caramel-light); }
+  footer p { font-size: 0.82rem; color: #8C7060; line-height: 1.6; }
+  footer nav-foot { display: flex; gap: 2rem; justify-content: center; margin: 1.2rem 0; flex-wrap: wrap; }
+  footer a { color: var(--tan); text-decoration: none; font-size: 0.82rem; opacity: 0.7; transition: opacity 0.2s; }
+  footer a:hover { opacity: 1; }
+  .footer-links { display: flex; gap: 2rem; justify-content: center; margin: 1.2rem 0; flex-wrap: wrap; }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 768px) {
+    .nav-links { display: none; }
+    .hamburger { display: flex; }
+    #about { grid-template-columns: 1fr; gap: 3rem; }
+    .about-img-accent { display: none; }
+    .contact-grid { grid-template-columns: 1fr; }
+    .form-row { grid-template-columns: 1fr; }
+    .hero-badges { gap: 1.5rem; }
+  }
+
+  /* ─── ANIMATIONS ─── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .hero-eyebrow { animation: fadeUp 0.6s ease forwards; }
+  .hero-title { animation: fadeUp 0.6s 0.15s ease both; }
+  .hero-sub { animation: fadeUp 0.6s 0.3s ease both; }
+  .hero-cta { animation: fadeUp 0.6s 0.45s ease both; }
+  .hero-badges { animation: fadeUp 0.6s 0.6s ease both; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#home" class="logo">The <span>Hearth</span> Café</a>
+  <ul class="nav-links">
+    <li><a href="#home">Home</a></li>
+    <li><a href="#menu">Menu</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <div class="hamburger" onclick="toggleMenu(this)">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- MOBILE NAV -->
+<div id="mobile-menu" style="display:none; position:fixed; top:68px; left:0; right:0; background:var(--cream); border-bottom:1px solid var(--border); padding:1.5rem 5%; z-index:99;">
+  <ul style="list-style:none; display:flex; flex-direction:column; gap:1.2rem;">
+    <li><a href="#home" onclick="closeMobile()" style="font-size:1rem; color:var(--brown); text-decoration:none;">Home</a></li>
+    <li><a href="#menu" onclick="closeMobile()" style="font-size:1rem; color:var(--brown); text-decoration:none;">Menu</a></li>
+    <li><a href="#about" onclick="closeMobile()" style="font-size:1rem; color:var(--brown); text-decoration:none;">About</a></li>
+    <li><a href="#contact" onclick="closeMobile()" style="font-size:1rem; color:var(--brown); text-decoration:none;">Contact</a></li>
+  </ul>
+</div>
+
+<!-- HERO -->
+<section id="home">
+  <div>
+    <span class="hero-eyebrow">Est. 2019 · Handcrafted with love</span>
+    <h1 class="hero-title">Where Every Cup<br>Feels Like <em>Home</em></h1>
+    <p class="hero-sub">Slow mornings, warm conversations, and coffee roasted just for you. Pull up a chair — you belong here.</p>
+    <div class="hero-cta">
+      <a href="#menu" class="btn-primary">Explore Menu</a>
+      <a href="#contact" class="btn-outline">Find Us</a>
+    </div>
+    <div class="hero-badges">
+      <div class="badge"><span class="badge-icon">☕</span><span>Single Origin</span></div>
+      <div class="badge"><span class="badge-icon">🌿</span><span>Organic Ingredients</span></div>
+      <div class="badge"><span class="badge-icon">🍞</span><span>Fresh Baked Daily</span></div>
+      <div class="badge"><span class="badge-icon">🐄</span><span>Local Dairy</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- MENU -->
+<section id="menu">
+  <div class="menu-header">
+    <span class="section-label">What We Serve</span>
+    <h2 class="section-title">Our Menu</h2>
+    <div class="divider"></div>
+    <p class="section-sub">Every item is made to order, brewed with care, and served with a smile.</p>
+  </div>
+
+  <div class="menu-tabs">
+    <button class="tab-btn active" onclick="switchTab('coffees', this)">Coffees</button>
+    <button class="tab-btn" onclick="switchTab('drinks', this)">Drinks</button>
+    <button class="tab-btn" onclick="switchTab('bites', this)">Bites</button>
+  </div>
+
+  <div id="coffees" class="tab-panel active">
+    <div class="menu-grid">
+      <div class="menu-card">
+        <div class="menu-card-top"><h3>Classic Espresso</h3><span class="menu-price">₹120</span></div>
+        <p>Double shot of our house blend, pulled to perfection — rich, bold, and just a little sweet.</p>
+        <span class="menu-tag">Bestseller</span>
+      </div>
+      <div class="menu-card">
+        <div class="menu-card-top"><h3>Honey Oat Latte</h3><span class="menu-price">₹220</span></div>
+        <p>Silky steamed oat milk swirled with wildflower honey and a double espresso shot.</p>
+        <span class="menu-tag">Staff Pick</span>
+      </div>
+      <div class="menu-card">
+        <div class="menu-card-top"><h3>Cinnamon Flat White</h3><span class="menu-price">₹200</span></div>
+        <p>Velvety microfoam, two ristretto shots, dusted with Ceylon cinnamon. Small but mighty.</p>
+      </div>
+      <div class="menu-card">
+        <div class="menu-card-top"><h3>Cold Brew</h3><span class="menu-price">₹180</span></div>
+        <p>Steeped for 18 hours, slow-chilled. Naturally sweet and incredibly smooth over ice.</p>
+        <span class="menu-tag">Seasonal</span>
+      </div>
+      <div class="menu-card">
+        <div class="menu-card-top"><h3>Cardamom Cappuccino</h3><span class="menu-price">₹190</span></div>
+        <p>A desi twist on an Italian classic — warm cardamom notes in a perfectly foamed cap.</p>
+        <span class="menu-tag">House Special</span>
+      </div>
+      <div class="menu-card">
+        <div class="menu-card-top"><h3>Café Mocha</h3><span class="menu-price">₹210</span></div>
+        <p>House espresso meets single-origin dark chocolate and steamed whole milk.</p>
+      </div>
+    </div>
+  </div>
+
+  <div id="drinks" class="tab-panel">
+    <div class="menu-grid">
+      <div class="menu-card">
+        <div class="menu-card-top"><h3>Masala Chai</h3><span class="menu-price">₹100</span></div>
+        <p>House-blended spices simmered in whole milk — ginger-forward, comforting, and bold.</p>
+        <span class="menu-tag">Bestseller</span>
+      </div>
+      <div class="menu-card">
+        <div class="menu-card-top"><h3>Matcha Latte</h3><span class="menu-price">₹220</span></div>
+        <p>Ceremonial grade matcha whisked smooth with warm oat milk and a hint of maple.</p>
+      </div>
+      <div class="menu-card">
+        <div class="menu-card-top"><h3>Golden Turmeric Milk</h3><span class="menu-price">₹150</span></div>
+        <p>Warm turmeric, black pepper, and ashwagandha blended into creamy steamed milk.</p>
+        <span class="menu-tag">Wellness</span>
+      </div>
+      <div class="menu-card">
+        <div class="menu-card-top"><h3>Rose Lemonade</h3><span class="menu-price">₹130</span></div>
+        <p>Chilled house-pressed lemonade with rose syrup and a sprig of fresh mint.</p>
+        <span class="menu-tag">Seasonal</span>
+      </div>
+    </div>
+  </div>
+
+  <div id="bites" class="tab-panel">
+    <div class="menu-grid">
+      <div class="menu-card">
+        <div class="menu-card-top"><h3>Banana Walnut Loaf</h3><span class="menu-price">₹90</span></div>
+        <p>Oven-fresh every morning, sweetened with jaggery, studded with California walnuts.</p>
+        <span class="menu-tag">Baked Fresh</span>
+      </div>
+      <div class="menu-card">
+        <div class="menu-card-top"><h3>Avocado Toast</h3><span class="menu-price">₹220</span></div>
+        <p>Multigrain sourdough, smashed avo, chilli flakes, microgreens, and a squeeze of lime.</p>
+        <span class="menu-tag">Bestseller</span>
+      </div>
+      <div class="menu-card">
+        <div class="menu-card-top"><h3>Almond Croissant</h3><span class="menu-price">₹140</span></div>
+        <p>Buttery, flaky, generously filled with almond cream and toasted sliced almonds.</p>
+        <span class="menu-tag">Limited Daily</span>
+      </div>
+      <div class="menu-card">
+        <div class="menu-card-top"><h3>Granola Parfait</h3><span class="menu-price">₹160</span></div>
+        <p>House granola layered with thick Greek yogurt and seasonal fruit compote.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-visual">
+    <div class="about-img-main">
+      <svg width="160" height="160" viewBox="0 0 160 160" fill="none">
+        <circle cx="80" cy="55" r="30" stroke="white" stroke-width="2"/>
+        <path d="M50 55 Q60 30 80 25 Q100 30 110 55" stroke="white" stroke-width="2" fill="none"/>
+        <rect x="55" y="85" width="50" height="8" rx="4" fill="white"/>
+        <rect x="45" y="98" width="70" height="8" rx="4" fill="white"/>
+        <rect x="30" y="111" width="100" height="8" rx="4" fill="white"/>
+        <path d="M70 55 Q75 45 80 55 Q85 65 80 75" stroke="white" stroke-width="1.5" fill="none"/>
+      </svg>
+    </div>
+    <div class="about-img-accent">
+      <div class="about-stat">
+        <div class="num">5+</div>
+        <div class="lbl">Years Brewing</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="about-text">
+    <span class="section-label">Our Story</span>
+    <h2 class="section-title">More than coffee —<br>a place to belong</h2>
+    <div class="divider"></div>
+    <p class="section-sub">The Hearth Café was born from a simple idea: everyone deserves a spot that feels like a second home. A place where the barista knows your order, the seats are always warm, and time slows down.</p>
+    <p class="section-sub" style="margin-top:1rem;">We source our beans directly from small farms in Coorg and Chikmagalur, roasted in small batches to honour each harvest. Nothing here is rushed.</p>
+    <div class="about-features">
+      <div class="about-feat">
+        <div class="about-feat-icon">🌱</div>
+        <div class="about-feat-text">
+          <h4>Farm-Direct Sourcing</h4>
+          <p>Every bean we use is traceable to a named farm and farmer.</p>
+        </div>
+      </div>
+      <div class="about-feat">
+        <div class="about-feat-icon">🤝</div>
+        <div class="about-feat-text">
+          <h4>Community First</h4>
+          <p>We host open-mic nights, art shows, and slow Sunday sessions.</p>
+        </div>
+      </div>
+      <div class="about-feat">
+        <div class="about-feat-icon">♻️</div>
+        <div class="about-feat-text">
+          <h4>Zero-Waste Kitchen</h4>
+          <p>Compostable packaging, spent-grounds garden, no single-use plastic.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <span class="section-label">Come Visit</span>
+  <h2 class="section-title">Find Us &amp; Say Hello</h2>
+  <div class="divider"></div>
+
+  <div class="contact-grid">
+    <div class="contact-info">
+      <div class="contact-item">
+        <div class="contact-item-icon">📍</div>
+        <div>
+          <h4>Address</h4>
+          <p>12, Sunset Lane, Sector 29<br>Gurugram, Haryana 122001</p>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-item-icon">🕐</div>
+        <div>
+          <h4>Hours</h4>
+          <p>Monday – Friday: 7:30 AM – 9:00 PM<br>Saturday – Sunday: 8:00 AM – 10:00 PM</p>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-item-icon">📞</div>
+        <div>
+          <h4>Phone</h4>
+          <p>+91 98765 43210</p>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-item-icon">✉️</div>
+        <div>
+          <h4>Email</h4>
+          <p>hello@thehearthcafe.in</p>
+        </div>
+      </div>
+    </div>
+
+    <form class="contact-form" onsubmit="handleSubmit(event)">
+      <div class="form-row">
+        <div class="form-group">
+          <label>First Name</label>
+          <input type="text" placeholder="Arjun" />
+        </div>
+        <div class="form-group">
+          <label>Last Name</label>
+          <input type="text" placeholder="Sharma" />
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" placeholder="you@example.com" />
+      </div>
+      <div class="form-group">
+        <label>Subject</label>
+        <select>
+          <option>General Enquiry</option>
+          <option>Table Reservation</option>
+          <option>Private Event</option>
+          <option>Catering</option>
+          <option>Feedback</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Message</label>
+        <textarea placeholder="Tell us how we can help..."></textarea>
+      </div>
+      <button type="submit" class="submit-btn">Send Message</button>
+      <div id="form-success" style="display:none; color:var(--caramel); font-size:0.9rem; margin-top:0.5rem;">
+        ✓ Message sent! We'll get back to you within 24 hours.
+      </div>
+    </form>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <a href="#home" class="logo">The <span>Hearth</span> Café</a>
+  <div class="footer-links">
+    <a href="#home">Home</a>
+    <a href="#menu">Menu</a>
+    <a href="#about">About</a>
+    <a href="#contact">Contact</a>
+  </div>
+  <p>© 2025 The Hearth Café · 12, Sunset Lane, Gurugram · Made with warmth ☕</p>
+</footer>
+
+<script>
+function switchTab(id, btn) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+}
+function toggleMenu(el) {
+  var m = document.getElementById('mobile-menu');
+  m.style.display = m.style.display === 'none' ? 'block' : 'none';
+}
+function closeMobile() {
+  document.getElementById('mobile-menu').style.display = 'none';
+}
+function handleSubmit(e) {
+  e.preventDefault();
+  document.getElementById('form-success').style.display = 'block';
+  e.target.reset();
+}
+</script>
+</body>
+</html>
